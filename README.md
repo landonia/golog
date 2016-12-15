@@ -13,9 +13,9 @@ different settings.
 
 With a healthy Go Language installed, simply run `go get github.com/landonia/golog`
 
-## Custom Example
+## Example
 
-	package main
+  package main
 
 	import (
 		"flag"
@@ -33,9 +33,17 @@ With a healthy Go Language installed, simply run `go get github.com/landonia/gol
 		log.Info("Application has started successfully..")
 
     // .. something goes wrong
-    
+
     log.Error("Whoops")
 	}
+
+## Out of Box Example
+
+simply run `go run $GOPATH/src/github.com/landonia/golog/cmd/example.go`
+
+You should see output to the following:
+
+![Example output](cmd/example.png?raw=true)
 
 ## About
 
