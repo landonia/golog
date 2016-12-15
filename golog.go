@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 // Define the logging levels
@@ -62,8 +63,8 @@ const (
 
 var (
 
-	// LoggingLevel is the current global logging level
-	LoggingLevel = INFO
+	// logLevel is the current global logging level
+	logLevel = INFO
 
 	// OutputLog is the base logger and can be overwritten on a package level if required
 	OutputLog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -71,6 +72,29 @@ var (
 	// file to write the log to
 	file *os.File
 )
+
+// LogLevel wwill set the log level to the specified level
+// if the log level is not recogised it will return a false and default to INFO
+func LogLevel(ll string) bool {
+	switch strings.ToUpper(ll) {
+	case "FATAL":
+		logLevel = FATAL
+	case "ERROR":
+		logLevel = ERROR
+	case "WARN":
+		logLevel = WARN
+	case "INFO":
+		logLevel = INFO
+	case "DEBUG":
+		logLevel = DEBUG
+	case "TRACE":
+		logLevel = TRACE
+	default:
+		logLevel = INFO
+		return false
+	}
+	return true
+}
 
 // OutputToFile will override the log from printing to stdout and instead print to the specified file
 // An error will be returned if the file could not be opened or created
@@ -90,6 +114,14 @@ func OutputToFile(filename string) error {
 	return nil
 }
 
+// Close will close the underlying file
+func Close() error {
+	if file != nil {
+		return file.Close()
+	}
+	return nil
+}
+
 // GoLog is a wrapper
 type GoLog struct {
 	ns string // The namespace for this log
@@ -100,17 +132,9 @@ func New(ns string) *GoLog {
 	return &GoLog{ns}
 }
 
-// Close will close the underlying file
-func Close() error {
-	if file != nil {
-		return file.Close()
-	}
-	return nil
-}
-
 // print message to standard out prefixed with date and time
 func print(level int, ns, s string) {
-	if LoggingLevel >= level {
+	if logLevel >= level {
 		l := "TRACE"
 		switch level {
 		case FATAL:
@@ -124,8 +148,13 @@ func print(level int, ns, s string) {
 		case DEBUG:
 			l = "DEBUG"
 		}
-		OutputLog.Print(fmt.Sprintf("[%s] [%s] %s", l, ns, s))
+		OutputLog.Print(fmt.Sprintf("[%-5s] [%s] %s", l, ns, s))
 	}
+}
+
+// formatString will format the string to the correct interface
+func formatString(format string, params ...interface{}) string {
+	return fmt.Sprintf(format, params...)
 }
 
 // PrintColour prints coloured message
@@ -134,31 +163,32 @@ func (gl *GoLog) PrintColour(level int, s string, colour Colour) {
 }
 
 // Fatal prints a Fatal level message
-func (gl *GoLog) Fatal(s string) {
-	gl.PrintColour(FATAL, s, RED)
+func (gl *GoLog) Fatal(format string, params ...interface{}) {
+	gl.PrintColour(FATAL, formatString(format, params...), RED)
+	os.Exit(1)
 }
 
 // Error prints an Error level message
-func (gl *GoLog) Error(s string) {
-	gl.PrintColour(ERROR, s, RED)
+func (gl *GoLog) Error(format string, params ...interface{}) {
+	gl.PrintColour(ERROR, formatString(format, params...), RED)
 }
 
 // Warn prints a Warn level message
-func (gl *GoLog) Warn(s string) {
-	gl.PrintColour(WARN, s, YELLOW)
+func (gl *GoLog) Warn(format string, params ...interface{}) {
+	gl.PrintColour(WARN, formatString(format, params...), YELLOW)
 }
 
 // Info prints an Info level message
-func (gl *GoLog) Info(s string) {
-	gl.PrintColour(INFO, s, GREEN)
+func (gl *GoLog) Info(format string, params ...interface{}) {
+	gl.PrintColour(INFO, formatString(format, params...), GREEN)
 }
 
 // Debug prints a Debug level message
-func (gl *GoLog) Debug(s string) {
-	print(DEBUG, gl.ns, s)
+func (gl *GoLog) Debug(format string, params ...interface{}) {
+	print(DEBUG, gl.ns, formatString(format, params...))
 }
 
 // Trace prints a Trace level message
-func (gl *GoLog) Trace(s string) {
-	print(TRACE, gl.ns, s)
+func (gl *GoLog) Trace(format string, params ...interface{}) {
+	print(TRACE, gl.ns, formatString(format, params...))
 }
