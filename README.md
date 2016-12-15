@@ -14,28 +14,26 @@ different settings.
 With a healthy Go Language installed, simply run `go get github.com/landonia/golog`
 
 ## Example
-
-  package main
+```go
+  	package main
 
 	import (
 		"flag"
 		"github.com/landonia/golog"
 	)
-
-  var (
-    log := golog.New("mynamespace")
-  )
+	
+	var (
+		log := golog.New("mynamespace")
+	)
 
 	func main() {
-
 		// Setup application.....
-
 		log.Info("Application has started successfully..")
-
-    // .. something goes wrong
-
-    log.Error("Whoops")
+		
+		// .. something goes wrong
+		log.Error("Whoops")
 	}
+```
 
 ## Out of Box Example
 
