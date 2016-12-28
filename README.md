@@ -1,4 +1,4 @@
-# simplegoblog
+# golog
 
 A wrapper for the go log providing namespaces and standard levels
 
@@ -21,7 +21,7 @@ With a healthy Go Language installed, simply run `go get github.com/landonia/gol
 		"flag"
 		"github.com/landonia/golog"
 	)
-	
+
 	var (
 		log := golog.New("mynamespace")
 	)
@@ -29,7 +29,7 @@ With a healthy Go Language installed, simply run `go get github.com/landonia/gol
 	func main() {
 		// Setup application.....
 		log.Info("Application has started successfully..")
-		
+
 		// .. something goes wrong
 		log.Error("Whoops")
 	}
