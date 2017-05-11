@@ -138,13 +138,13 @@ func print(level int, ns, s string) {
 		l := "TRACE"
 		switch level {
 		case FATAL:
-			l = "FATAL"
+			l = fmt.Sprintf("\x1b[%v;1m%v\x1b[0m", RED, "FATAL")
 		case ERROR:
-			l = "ERROR"
+			l = fmt.Sprintf("\x1b[%v;1m%v\x1b[0m", RED, "ERROR")
 		case WARN:
-			l = "WARN"
+			l = fmt.Sprintf("\x1b[%v;1m%v\x1b[0m", YELLOW, "WARN")
 		case INFO:
-			l = "INFO"
+			l = fmt.Sprintf("\x1b[%v;1m%v\x1b[0m", GREEN, "INFO")
 		case DEBUG:
 			l = "DEBUG"
 		}
