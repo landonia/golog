@@ -1,6 +1,7 @@
 # golog
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/landonia/golog)](https://goreportcard.com/report/github.com/landonia/golog)
+[![GoDoc](https://godoc.org/github.com/landonia/golog?status.svg)](https://godoc.org/github.com/landonia/golog)
 
 A wrapper for the go log providing namespaces and standard levels
 
