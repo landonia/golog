@@ -1,4 +1,4 @@
-// Copyright 2016 Landon Wainwright. All rights reserved.
+// Copyright 2018 Landon Wainwright. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -73,6 +73,27 @@ var (
 	file *os.File
 )
 
+// GoLogger defines the base GoLog type loggers
+type GoLogger interface {
+	// Fatal prints a Fatal level message
+	Fatal(format string, params ...interface{})
+
+	// Error prints an Error level message
+	Error(format string, params ...interface{})
+
+	// Warn prints a Warn level message
+	Warn(format string, params ...interface{})
+
+	// Info prints an Info level message
+	Info(format string, params ...interface{})
+
+	// Debug prints a Debug level message
+	Debug(format string, params ...interface{})
+
+	// Trace prints a Trace level message
+	Trace(format string, params ...interface{})
+}
+
 // LogLevel wwill set the log level to the specified level
 // if the log level is not recogised it will return a false and default to INFO
 func LogLevel(ll string) bool {
@@ -93,6 +114,7 @@ func LogLevel(ll string) bool {
 		logLevel = INFO
 		return false
 	}
+	SetZeroGlobalLevel(logLevel)
 	return true
 }
 
