@@ -105,7 +105,7 @@ func setLoggerLevel(set func(zerolog.Level), level golog.Level) {
 	}
 }
 
-// NewZeroLogger will return a new log for the particular namespace
+// New will return a new log for the particular namespace
 // wrapping the zerolog implementation (for speed)
 func New(withConfs ...WithConfiguration) (golog.Logger, error) {
 	log := zerolog.New(os.Stderr).With().Timestamp().Logger()

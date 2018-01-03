@@ -36,6 +36,7 @@ func SetGlobalLevel(level Level) {
 	}
 }
 
+// GlobalLevel will return the current level that has been set globally for all loggers
 func GlobalLevel() Level {
 	return Level(atomic.LoadUint32(globalLogLevel))
 }
@@ -137,14 +138,27 @@ type Logger interface {
 	Trace(format string, params ...interface{})
 }
 
-// EmptyLog can be used to fill the interface requirement where a logger
+// EmptyLogger can be used to fill the interface requirement where a logger
 // has not been provided
 type EmptyLogger struct{}
 
-func (el *EmptyLogger) SetLevel(level Level)                       {}
+// SetLevel implements Logger
+func (el *EmptyLogger) SetLevel(level Level) {}
+
+// Fatal implements Logger
 func (el *EmptyLogger) Fatal(format string, params ...interface{}) {}
+
+// Error implements Logger
 func (el *EmptyLogger) Error(format string, params ...interface{}) {}
-func (el *EmptyLogger) Warn(format string, params ...interface{})  {}
-func (el *EmptyLogger) Info(format string, params ...interface{})  {}
+
+// Warn implements Logger
+func (el *EmptyLogger) Warn(format string, params ...interface{}) {}
+
+// Info implements Logger
+func (el *EmptyLogger) Info(format string, params ...interface{}) {}
+
+// Debug implements Logger
 func (el *EmptyLogger) Debug(format string, params ...interface{}) {}
+
+// Trace implements Logger
 func (el *EmptyLogger) Trace(format string, params ...interface{}) {}
