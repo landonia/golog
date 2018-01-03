@@ -27,9 +27,9 @@ With a healthy Go Language installed, simply run `go get github.com/landonia/gol
 
 	func main() {
 		log, err := prettylog.New(prettylog.WithNameSpace("mynamespace"))
-    if err != nil {
-      panic(err)
-    }
+    		if err != nil {
+      			panic(err)
+    		}
 
 		// Setup application.....
 		log.Info("Application has started successfully..")
