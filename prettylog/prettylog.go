@@ -112,7 +112,11 @@ func (gl *PrettyLogger) print(level golog.Level, ns, s string) {
 		case golog.INFO:
 			l = color.PrintGreenMaxWidth(level, 5)
 		}
-		gl.out.Print(util.FormatString("[%-5s] [%s] %s", l, ns, s))
+		if ns == "" {
+			gl.out.Print(util.FormatString("[%-5s] %s", l, s))
+		} else {
+			gl.out.Print(util.FormatString("[%-5s] [%s] %s", l, ns, s))
+		}
 	}
 }
 
