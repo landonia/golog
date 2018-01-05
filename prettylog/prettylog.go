@@ -105,6 +105,7 @@ func (gl *PrettyLogger) print(level golog.Level, ns, s string) {
 		l := level.String()
 		switch level {
 		case golog.FATAL:
+			l = color.PrintRedMaxWidth(level, 5)
 		case golog.ERROR:
 			l = color.PrintRedMaxWidth(level, 5)
 		case golog.WARN:
